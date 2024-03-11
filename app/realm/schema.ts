@@ -1,12 +1,12 @@
 // 테스트 스키마
-export const personSchema = {
-  name: 'member',
+export const TestSchema = {
+  name: 'Test',
   properties: {
+    _id: 'int',
     name: 'string',
-    age: 'string',
-    // pets: {type: 'list'},
+    age: 'int',
   },
-  primaryKey: 'name',
+  primaryKey: '_id',
 };
 
 // 운행기록 스키마

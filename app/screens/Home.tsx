@@ -1,80 +1,112 @@
 // react, react-native
+import {useEffect, useRef, useState} from 'react';
 import {Text, View, Button} from 'react-native';
 
+// library
+import Realm from 'realm';
+
+// assets, utils, realm
+import {TestSchema} from '../realm/schema.ts';
+
+// component
 import BasicsButton from '../components/BasicsButton.tsx';
 
-import Realm from 'realm';
-import {useEffect, useRef, useState} from 'react';
-import {RecordSchema} from '../realm/schema.ts';
-
-interface RecordType {
-  date: string;
-  card: number;
-  cash: number; // 현금
-  lpgInjectionVolume: number; // LPG 주입량
-  lpgUnitPrice: number; // LPG 단가
-  mileage: number; // 주행거리
-  businessDistance: number; // 영업거리
-  toll: number; // 통행료
-  operatingAmount: number; // 영업금액
-  lpgChargeAmount: number; // LPG 충전 금액
-  fuelEfficiency: number; // 연비
-  lpgUsage: number; // LPG 사용량
-}
-
 const Home = () => {
-  const [recordData, setRecordData] = useState<RecordType[]>([]);
+  const [id, setId] = useState(0);
 
   const realm = useRef<Realm>();
 
   useEffect(() => {
-    console.log('나오나???');
-
     //realmDB 오픈
     openLocalDB();
 
     return () => {
       realm.current?.close();
+      console.log('realmDB 닫기!!!');
     };
   }, []);
 
   const openLocalDB = async () => {
-    realm.current = await Realm.open({schema: [RecordSchema]});
-    console.log('Realm is located at: ' + realm.current.path);
+    realm.current = await Realm.open({schema: [TestSchema]});
+    console.log('realmDB 오픈!!!');
+    readAllDB();
   };
 
   const createDB = () => {
     const newData = {
-      date: '2024-03-08',
-      card: 100000,
-      cash: 100000, // 현금
-      lpgInjectionVolume: 10, // LPG 주입량
-      lpgUnitPrice: 10, // LPG 단가
-      mileage: 10, // 주행거리
-      businessDistance: 100, // 영업거리
-      toll: 1000, // 통행료
-      operatingAmount: 200000, // 영업금액
-      lpgChargeAmount: 200000, // LPG 충전 금액
-      fuelEfficiency: 10, // 연비
-      lpgUsage: 20, // LPG 사용량
+      _id: id,
+      name: '이름',
+      age: 10,
     };
+    setId(prev => prev + 1);
 
     realm.current?.write(() => {
-      realm.current?.create('Record', newData);
+      realm.current?.create('Test', newData);
     });
+
+    console.log('데이터가 생성되었습니다.');
+    readAllDB();
   };
 
   const readAllDB = () => {
-    const recordData = realm.current?.objects('Record');
-    console.log(recordData);
-    setRecordData(recordData); // 계속 오류나는 이유를 모르겠음 디버깅하고 싶다.
+    const data = realm.current?.objects('Test');
+
+    if (data) {
+      console.log('현재 데이터:', data);
+    } else {
+      console.log('데이터가 없습니다.');
+    }
+  };
+
+  // _id = 1를 가진 데이터 name='새로운 이름'으로 바꾸기
+  const updateDB = () => {
+    // 교체할 데이터 : _id = 1을 가진 데이터 찾기
+    const data = realm.current?.objects('Test').filtered('_id = 1')[0];
+
+    if (data) {
+      realm.current?.write(() => {
+        data.name = '새로운 이름';
+      });
+
+      readAllDB();
+    }
+  };
+
+  const deleteAllDB = () => {
+    const data = realm.current?.objects('Test');
+
+    realm.current?.write(() => {
+      realm.current?.delete(data);
+    });
+    console.log('데이터가 전부 삭제되었습니다.');
+    readAllDB();
+  };
+
+  // _id = 1를 가진 데이터만 삭제
+  const deleteDB = () => {
+    const data = realm.current?.objects('Test').filtered('_id = 1')[0];
+
+    realm.current?.write(() => {
+      realm.current?.delete(data);
+    });
+    console.log('_id = 1를 가진 데이터가 전부 삭제되었습니다.');
+    readAllDB();
   };
 
   return (
     <View>
       <Text>홈 스크린</Text>
 
-      <Button onPress={createDB} title={'테스트'} />
+      <Button onPress={createDB} title={'데이터 추가'} />
+
+      <Button
+        onPress={updateDB}
+        title={'_id = 1를 가진 데이터 name="새로운 이름"으로 업데이트'}
+      />
+
+      <Button onPress={deleteAllDB} title={'데이터 전체 삭제'} />
+
+      <Button onPress={deleteDB} title={'_id = 1를 가진 데이터만 삭제'} />
 
       {/* <Text>{readAllDB}</Text> */}
       <BasicsButton />

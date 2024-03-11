@@ -2,7 +2,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SvgXml} from 'react-native-svg';
 
-// assets, utils
+// assets, utils, realm
 import {svg} from '../assets/svg';
 
 // components
