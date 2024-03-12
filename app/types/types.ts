@@ -12,3 +12,10 @@ export interface RecordType {
   fuelEfficiency: number; // 연비
   lpgUsage: number; // LPG 사용량
 }
+
+export interface RecordBoxType {
+  title: string;
+  state: number;
+  unit?: '원' | 'km' | 'km/L' | 'L';
+  option?: 'basics' | 'orange';
+}

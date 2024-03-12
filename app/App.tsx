@@ -8,6 +8,8 @@ const App = () => {
   const customTextProps = {
     style: {
       fontFamily: 'NotoSansKRRegular',
+      fontSize: 14,
+      color: '#333',
     },
   };
   setCustomText(customTextProps);
