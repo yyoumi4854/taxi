@@ -29,7 +29,7 @@ const fonts = {
 
   // line-height 1.25
   baseHight: '17.5px',
-  smallHeight: '15p',
+  smallHeight: '15px',
   mediumHeight: '22.5px',
   largeHeight: '25px',
 };

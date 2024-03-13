@@ -1,6 +1,6 @@
 export interface RecordType {
   date: string;
-  card: number;
+  card: number; // 카드
   cash: number; // 현금
   lpgInjectionVolume: number; // LPG 주입량
   lpgUnitPrice: number; // LPG 단가
@@ -14,8 +14,24 @@ export interface RecordType {
 }
 
 export interface RecordBoxType {
-  title: string;
+  // title: string;
+  title:
+    | '카드'
+    | '현금'
+    | 'LPG 주입량'
+    | 'LPG 단가'
+    | '주행거리'
+    | '영업거리'
+    | '통행료'
+    | '영업금액'
+    | 'LPG 충전 금액'
+    | '연비'
+    | 'LPG 사용량';
   state: number;
   unit?: '원' | 'km' | 'km/L' | 'L';
   option?: 'basics' | 'orange';
+}
+
+export interface RecordInputBoxType extends RecordBoxType {
+  category: Exclude<keyof RecordType, 'date'>;
 }

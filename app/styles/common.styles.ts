@@ -1,5 +1,5 @@
 // react, react-native
-import {Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 
 // library
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Theme from './Theme';
 import {RecordBoxType} from '../types/types';
 
+// RecordBox
 type OptionType = Pick<RecordBoxType, 'option'>;
 
 export const RecordBox = {
@@ -43,5 +44,27 @@ export const RecordBox = {
     ${Theme.fontCommon.base};
     color: ${Theme.colors.black};
     text-align: center;
+  `,
+};
+
+// BasicsButton
+interface BtnOtionType {
+  option?: 'cancel' | 'confirm';
+}
+export const BasicsButton = {
+  button: styled(TouchableOpacity)<BtnOtionType>`
+    flex: 1;
+    ${Theme.common.flexCenter}
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid ${Theme.colors.main};
+    background: ${props =>
+      props.option === 'confirm' ? Theme.colors.main : '#fff'};
+  `,
+  text: styled(Text)<BtnOtionType>`
+    ${Theme.fontCommon.base}
+    font-family: ${Theme.fonts.medium};
+    color: ${props =>
+      props.option === 'confirm' ? '#fff' : Theme.colors.main};
   `,
 };
