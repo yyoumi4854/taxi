@@ -1,7 +1,9 @@
 // react, react-native
+import {useState} from 'react';
 import {ScrollView} from 'react-native';
 
 // library
+import dayjs from 'dayjs';
 
 // assets, utils, realm
 
@@ -16,6 +18,13 @@ import CreateButton from '../components/home/CreateButton.tsx';
 import {Home as Style} from '../styles/home.styles.ts';
 
 const Home = () => {
+  // +버튼 클릭시 현재 년월일을 가지고가서 기록화면에 표시
+  // 월달력 이동
+
+  // 현재 날짜: 년-월-일
+  const currentDate = dayjs().format('YYYY-MM-DD');
+  const [selectDate, setSelectDate] = useState(currentDate);
+
   return (
     <Style.container>
       <ScrollView>
@@ -25,7 +34,11 @@ const Home = () => {
         {/* 월별 운행 기록 */}
         <Style.bottomContainer>
           {/* 월별 달력 */}
-          <MonthCalendar />
+          <MonthCalendar
+            currentDate={currentDate}
+            selectDate={selectDate}
+            setSelectDate={setSelectDate}
+          />
 
           {/* 이번달 영업 금액 */}
           <MonthBusinessAmount />
@@ -36,7 +49,7 @@ const Home = () => {
       </ScrollView>
 
       {/* create 버튼 */}
-      <CreateButton />
+      <CreateButton currentDate={currentDate} />
     </Style.container>
   );
 };

@@ -13,11 +13,15 @@ import {svg} from '../../assets/svg';
 // style
 import {CreateButton as Style} from '../../styles/home.styles';
 
-const CreateButton = () => {
+interface PropsType {
+  currentDate: string;
+}
+
+const CreateButton = ({currentDate}: PropsType) => {
   const navigation = useNavigation();
 
   const onNavigationPress = () => {
-    navigation.navigate('Record');
+    navigation.navigate('Record', {selectedDate: currentDate});
   };
 
   return (
