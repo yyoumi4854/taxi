@@ -18,9 +18,6 @@ import CreateButton from '../components/home/CreateButton.tsx';
 import {Home as Style} from '../styles/home.styles.ts';
 
 const Home = () => {
-  // +버튼 클릭시 현재 년월일을 가지고가서 기록화면에 표시
-  // 월달력 이동
-
   // 현재 날짜: 년-월-일
   const currentDate = dayjs().format('YYYY-MM-DD');
   const [selectDate, setSelectDate] = useState(currentDate);

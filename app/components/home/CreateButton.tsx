@@ -21,7 +21,7 @@ const CreateButton = ({currentDate}: PropsType) => {
   const navigation = useNavigation();
 
   const onNavigationPress = () => {
-    navigation.navigate('Record', {selectedDate: currentDate});
+    navigation.navigate('Record', {postDate: currentDate});
   };
 
   return (

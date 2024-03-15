@@ -68,3 +68,32 @@ export const BasicsButton = {
       props.option === 'confirm' ? '#fff' : Theme.colors.main};
   `,
 };
+
+export const Modal = {
+  modalWrap: styled(View)`
+    flex: 1;
+    ${Theme.common.flexCenter}
+    background: rgba(0, 0, 0, 0.7);
+  `,
+  container: styled(View)`
+    padding: 20px;
+    width: 320px;
+    border-radius: 10px;
+    background: #fff;
+  `,
+  yearText: styled(Text)`
+    ${Theme.fontCommon.base}
+    font-family: ${Theme.fonts.medium};
+    color: ${Theme.colors.darkGrey};
+  `,
+  DateText: styled(Text)`
+    ${Theme.fontCommon.large}
+    font-family: ${Theme.fonts.bold};
+    color: ${Theme.colors.black};
+    margin-top: 4px;
+  `,
+  buttonWrap: styled(View)`
+    ${Theme.common.flexRowCenter}
+    gap: 8px;
+  `,
+};
