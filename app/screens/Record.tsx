@@ -15,45 +15,75 @@ import ButtonWrap from '../components/record/ButtonWrap';
 
 // style
 import {Record as Style} from '../styles/record.styles';
-import {Button, Text} from 'react-native';
+import {RecordType} from '../types/types';
 
-// const initialRecordState = {
-//   date: selectDate,
-//   card: 0, // 카드
-//   cash: 0, // 현금
-//   lpgInjectionVolume: 0, // LPG 주입량
-//   lpgUnitPrice: 0, // LPG 단가
-//   mileage: 0, // 주행거리
-//   businessDistance: 0, // 영업거리
-//   toll: 0, // 통행료
-//   operatingAmount: 0, // 영업금액
-//   lpgChargeAmount: 0, // LPG 충전 금액
-//   fuelEfficiency: 0, // 연비
-//   lpgUsage: 0, // LPG 사용량
+// 초기 상태
+const initialRecord: RecordType = {
+  date: '', // 날짜
+  card: 0, // 카드
+  cash: 0, // 현금
+  lpgInjectionVolume: 0, // LPG 주입량
+  lpgUnitPrice: 0, // LPG 단가
+  mileage: 0, // 주행거리
+  businessDistance: 0, // 영업거리
+  toll: 0, // 통행료
+  operatingAmount: 0, // 영업금액
+  lpgChargeAmount: 0, // LPG 충전 금액
+  fuelEfficiency: 0, // 연비
+  lpgUsage: 0, // LPG 사용량
+};
 // };
+
+// 리듀서 함수
+const reducer = (state: RecordType, action: {type: string; payload?: any}) => {
+  switch (action.type) {
+    case 'initialize':
+      return {...state, ...action.payload};
+    case 'updateInput':
+      return {...state, [action.payload.name]: action.payload.value};
+    case 'updateOperatingAmount':
+      return {...state, operatingAmount: state.card + state.cash};
+    case 'updateLpgChargeAmount':
+      return {
+        ...state,
+        lpgChargeAmount: state.lpgInjectionVolume * state.lpgUnitPrice,
+      };
+    case 'updateFuelEfficiency':
+      return {
+        ...state,
+        fuelEfficiency: state.mileage / state.lpgInjectionVolume,
+      };
+    case 'updateLpgUsage':
+      return {...state, lpgUsage: state.mileage / state.fuelEfficiency};
+    default:
+      return state;
+  }
+};
 
 // 추가하기(+버튼 클릭시), 수정하기(달력에서 날짜 클릭, 수정 클릭)
 const Record = ({route}) => {
   const {postDate} = route.params;
 
-  const [selectDate, setSelectDate] = useState(postDate); // 선택한 날짜
-
   const realm = useRef<Realm>();
 
-  // selectDate에 해당하는 데이터 있는지 체크 및 가져오기
+  const [selectDate, setSelectDate] = useState(postDate); // 선택한 날짜
+  const [state, dispatch] = useReducer(reducer, initialRecord);
+
+  // selectDate가 realm에 있는지 체크 - 있으면 realm에 있는 값으로, 아닐 경우 selectDate만 적용
   const readDB = useCallback(() => {
     const selectDateData = realm.current
       ?.objects('Record')
       .filtered(`date = '${selectDate}'`)[0];
 
     if (selectDateData) {
-      console.log(`${selectDate} 데이터:`, selectDateData);
+      dispatch({type: 'initialize', payload: selectDateData});
     } else {
-      console.log(`${selectDate}데이터가 없습니다.`);
+      const initialData = {...initialRecord, date: selectDate};
+      dispatch({type: 'initialize', payload: initialData});
     }
   }, [selectDate]);
 
-  // 선택한 날짜가 바뀌면 useReducer의 기본값 바뀌게 하기
+  // selectDate가 변경되면 readDB()렌더링
   useEffect(() => {
     readDB();
   }, [readDB, selectDate]);
@@ -75,6 +105,7 @@ const Record = ({route}) => {
     };
   }, []);
 
+  // 임시로 사용할 realm
   const readAllDB = () => {
     const data = realm.current?.objects('Record');
 
@@ -126,16 +157,17 @@ const Record = ({route}) => {
 
       <Style.scrollView>
         {/* 기본 운행 정보 기록하기 */}
-        <DrivingInfoRecord />
+        <DrivingInfoRecord state={state} dispatch={dispatch} />
 
         {/* 운행정보 */}
-        <DrivingInfo />
+        <DrivingInfo state={state} />
       </Style.scrollView>
 
       {/* 취소, 저장 */}
       <ButtonWrap />
-      {/* <Text>{recordData.date}</Text>
-      <Text>{recordData.card}</Text>
+      {/* <Text>{date}나와랏</Text>
+      <Text>{card}나와랏</Text> */}
+      {/* 
       <Button onPress={createDB} title={'데이터 추가'} />
       <Button onPress={readDB} title={'데이터 읽기'} />
       <Button onPress={readAllDB} title={'전체 데이터 읽기'} />
