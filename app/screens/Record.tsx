@@ -1,10 +1,11 @@
 // react, react-native
 import {useCallback, useEffect, useReducer, useRef, useState} from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 // library
 import Realm from 'realm';
 
-// assets, utils, realm
+// realm
 import {RecordSchema} from '../realm/schema';
 
 // component
@@ -15,70 +16,39 @@ import ButtonWrap from '../components/record/ButtonWrap';
 
 // style
 import {Record as Style} from '../styles/record.styles';
-import {RecordType} from '../types/types';
+import * as RecordReducer from '../reducers/recordReducer';
+import {Button} from 'react-native';
 
-// 초기 상태
-const initialRecord: RecordType = {
-  date: '', // 날짜
-  card: 0, // 카드
-  cash: 0, // 현금
-  lpgInjectionVolume: 0, // LPG 주입량
-  lpgUnitPrice: 0, // LPG 단가
-  mileage: 0, // 주행거리
-  businessDistance: 0, // 영업거리
-  toll: 0, // 통행료
-  operatingAmount: 0, // 영업금액
-  lpgChargeAmount: 0, // LPG 충전 금액
-  fuelEfficiency: 0, // 연비
-  lpgUsage: 0, // LPG 사용량
+type RootStackParamList = {
+  Profile: {postDate: string};
 };
-// };
 
-// 리듀서 함수
-const reducer = (state: RecordType, action: {type: string; payload?: any}) => {
-  switch (action.type) {
-    case 'initialize':
-      return {...state, ...action.payload};
-    case 'updateInput':
-      return {...state, [action.payload.name]: action.payload.value};
-    case 'updateOperatingAmount':
-      return {...state, operatingAmount: state.card + state.cash};
-    case 'updateLpgChargeAmount':
-      return {
-        ...state,
-        lpgChargeAmount: state.lpgInjectionVolume * state.lpgUnitPrice,
-      };
-    case 'updateFuelEfficiency':
-      return {
-        ...state,
-        fuelEfficiency: state.mileage / state.lpgInjectionVolume,
-      };
-    case 'updateLpgUsage':
-      return {...state, lpgUsage: state.mileage / state.fuelEfficiency};
-    default:
-      return state;
-  }
-};
+type profileProps = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 // 추가하기(+버튼 클릭시), 수정하기(달력에서 날짜 클릭, 수정 클릭)
-const Record = ({route}) => {
+const Record = ({route}: profileProps) => {
   const {postDate} = route.params;
-
   const realm = useRef<Realm>();
 
   const [selectDate, setSelectDate] = useState(postDate); // 선택한 날짜
-  const [state, dispatch] = useReducer(reducer, initialRecord);
+  const [record, setRecord] = useState(''); // CREATE or UPDATE
+  const [state, dispatch] = useReducer(
+    RecordReducer.reducer,
+    RecordReducer.initialRecord,
+  );
 
-  // selectDate가 realm에 있는지 체크 - 있으면 realm에 있는 값으로, 아닐 경우 selectDate만 적용
+  // selectDate가 realm에 있는지 체크
   const readDB = useCallback(() => {
     const selectDateData = realm.current
       ?.objects('Record')
       .filtered(`date = '${selectDate}'`)[0];
 
     if (selectDateData) {
+      setRecord('UPDATE'); // 데이터 수정
       dispatch({type: 'initialize', payload: selectDateData});
     } else {
-      const initialData = {...initialRecord, date: selectDate};
+      setRecord('CREATE'); // 데이터 생성
+      const initialData = {...RecordReducer.initialRecord, date: selectDate};
       dispatch({type: 'initialize', payload: initialData});
     }
   }, [selectDate]);
@@ -105,7 +75,39 @@ const Record = ({route}) => {
     };
   }, []);
 
-  // 임시로 사용할 realm
+  const createDB = () => {
+    realm.current?.write(() => {
+      realm.current?.create('Record', state);
+    });
+
+    console.log('데이터가 생성되었습니다.');
+    readDB();
+  };
+
+  const updateDB = () => {
+    const selectDateData = realm.current
+      ?.objects('Record')
+      .filtered(`date = '${selectDate}'`)[0];
+
+    if (selectDateData) {
+      realm.current?.write(() => {
+        selectDateData.card = state.card;
+        selectDateData.cash = state.cash;
+        selectDateData.lpgInjectionVolume = state.lpgInjectionVolume;
+        selectDateData.lpgUnitPrice = state.lpgUnitPrice;
+        selectDateData.mileage = state.mileage;
+        selectDateData.businessDistance = state.businessDistance;
+        selectDateData.toll = state.toll;
+        selectDateData.operatingAmount = state.operatingAmount;
+        selectDateData.lpgChargeAmount = state.lpgChargeAmount;
+        selectDateData.fuelEfficiency = state.fuelEfficiency;
+        selectDateData.lpgUsage = state.lpgUsage;
+      });
+      console.log('데이터가 수정되었습니다.');
+      readDB();
+    }
+  };
+
   const readAllDB = () => {
     const data = realm.current?.objects('Record');
 
@@ -116,39 +118,15 @@ const Record = ({route}) => {
     }
   };
 
-  const createDB = () => {
-    const newData = {
-      date: '2024-03-12',
-      card: 13, // 카드
-      cash: 13, // 현금
-      lpgInjectionVolume: 13, // LPG 주입량
-      lpgUnitPrice: 13, // LPG 단가
-      mileage: 13, // 주행거리
-      businessDistance: 13, // 영업거리
-      toll: 13, // 통행료
-      operatingAmount: 13, // 영업금액
-      lpgChargeAmount: 13, // LPG 충전 금액
-      fuelEfficiency: 13, // 연비
-      lpgUsage: 13, // LPG 사용량
-    };
+  // const deleteAllDB = () => {
+  //   const data = realm.current?.objects('Record');
 
-    realm.current?.write(() => {
-      realm.current?.create('Record', newData);
-    });
-
-    console.log('데이터가 생성되었습니다.');
-    readAllDB();
-  };
-
-  const deleteAllDB = () => {
-    const data = realm.current?.objects('Record');
-
-    realm.current?.write(() => {
-      realm.current?.delete(data);
-    });
-    console.log('데이터가 전부 삭제되었습니다.');
-    readAllDB();
-  };
+  //   realm.current?.write(() => {
+  //     realm.current?.delete(data);
+  //   });
+  //   console.log('데이터가 전부 삭제되었습니다.');
+  //   readAllDB();
+  // };
 
   return (
     <Style.container>
@@ -164,13 +142,11 @@ const Record = ({route}) => {
       </Style.scrollView>
 
       {/* 취소, 저장 */}
-      <ButtonWrap />
-      {/* <Text>{date}나와랏</Text>
-      <Text>{card}나와랏</Text> */}
-      {/* 
-      <Button onPress={createDB} title={'데이터 추가'} />
-      <Button onPress={readDB} title={'데이터 읽기'} />
+      <ButtonWrap record={record} createDB={createDB} updateDB={updateDB} />
+
       <Button onPress={readAllDB} title={'전체 데이터 읽기'} />
+      {/* <Button onPress={createDB} title={'데이터 추가'} />
+      <Button onPress={readDB} title={'데이터 읽기'} />
       <Button onPress={deleteAllDB} title={'전체 데이터 삭제'} /> */}
     </Style.container>
   );

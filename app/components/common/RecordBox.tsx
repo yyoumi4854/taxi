@@ -1,11 +1,5 @@
-// react, react-native
-
-// library
-
 // assets, utils, realm, type
 import {RecordBoxType} from '../../types/types';
-
-// component
 
 // style
 import {RecordBox as Style} from '../../styles/common.styles';

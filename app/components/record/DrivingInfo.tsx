@@ -1,8 +1,6 @@
 // react, react-native
 import {SvgXml} from 'react-native-svg';
 
-// library
-
 // assets, utils, realm
 import {svg} from '../../assets/svg';
 import {RecordType} from '../../types/types';
@@ -36,29 +34,17 @@ const DrivingInfo = ({state}: PropsType) => {
 
       <Style.RecordBoxWrap>
         <RecordBox title="카드" state={card} />
-
-        {/* + */}
         <SvgXml xml={svg.plus} width={10} fill="#333" />
-
         <RecordBox title="현금" state={cash} />
-
-        {/* = */}
         <SvgXml xml={svg.equals} />
-
         <RecordBox title="영업금액" state={operatingAmount} option="orange" />
       </Style.RecordBoxWrap>
 
       <Style.RecordBoxWrap>
         <RecordBox title="LPG 주입량" state={lpgInjectionVolume} unit="L" />
-
-        {/* * */}
         <SvgXml xml={svg.multiplication} />
-
         <RecordBox title="LPG 단가" state={lpgUnitPrice} />
-
-        {/* = */}
         <SvgXml xml={svg.equals} />
-
         <RecordBox
           title="LPG 충전 금액"
           state={lpgChargeAmount}
@@ -68,15 +54,9 @@ const DrivingInfo = ({state}: PropsType) => {
 
       <Style.RecordBoxWrap>
         <RecordBox title="주행거리" state={mileage} unit="km" />
-
-        {/* / */}
         <SvgXml xml={svg.division} />
-
         <RecordBox title="LPG 주입량" state={lpgInjectionVolume} unit="L" />
-
-        {/* = */}
         <SvgXml xml={svg.equals} />
-
         <RecordBox
           title="연비"
           state={fuelEfficiency}
@@ -87,15 +67,9 @@ const DrivingInfo = ({state}: PropsType) => {
 
       <Style.RecordBoxWrap>
         <RecordBox title="주행거리" state={mileage} unit="km" />
-
-        {/* / */}
         <SvgXml xml={svg.division} />
-
         <RecordBox title="연비" state={fuelEfficiency} unit="km/L" />
-
-        {/* = */}
         <SvgXml xml={svg.equals} />
-
         <RecordBox
           title="LPG 사용량"
           state={lpgUsage}

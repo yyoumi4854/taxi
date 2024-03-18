@@ -1,10 +1,6 @@
 // react, react-native
 import {Dispatch} from 'react';
 
-// library
-
-// assets, utils, realm
-
 // component
 import RecordInputBox from './RecordInputBox';
 
