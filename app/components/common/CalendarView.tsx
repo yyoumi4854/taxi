@@ -1,28 +1,20 @@
 // react, react-native
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {SvgXml} from 'react-native-svg';
 
 // library
-import Realm from 'realm';
 import dayjs from 'dayjs';
 
 // assets, realm
-import {RecordSchema} from '../../realm/schema';
 import {svg} from '../../assets/svg';
 
 // component
 
 // style
 import Theme from '../../styles/Theme';
-import {RecordType} from '../../types/types';
+import {readAllRecord} from '../../realm/recordRealmFunctions';
 
 LocaleConfig.locales['ko'] = {
   monthNames: [
@@ -81,27 +73,8 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
     Record<string, {marked: boolean}>
   >({});
 
-  const realm = useRef<Realm>();
-
-  const openLocalDB = async () => {
-    realm.current = await Realm.open({schema: [RecordSchema]});
-    console.log('realmDB 열기!');
-
-    readMarkedAllDB();
-  };
-
-  // realmDB 열기, 닫기
-  useEffect(() => {
-    openLocalDB();
-
-    return () => {
-      realm.current?.close();
-      console.log('realmDB 닫기!');
-    };
-  }, []);
-
   const readMarkedAllDB = () => {
-    const data = realm.current?.objects<RecordType>('Record');
+    const data = readAllRecord();
     const newMarkedDate: Record<string, {marked: true}> = {};
 
     if (data) {
@@ -115,6 +88,10 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
       console.log('데이터가 없습니다.');
     }
   };
+
+  useEffect(() => {
+    readMarkedAllDB();
+  }, []);
 
   const markedSelectedDates = {
     ...markedDate,

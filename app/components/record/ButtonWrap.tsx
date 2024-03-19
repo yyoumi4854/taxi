@@ -1,17 +1,20 @@
+// realm
+import {createRecord, updateRecord} from '../../realm/recordRealmFunctions';
+
 // component
 import BasicsButton from '../common/BasicsButton';
 
 // style
 import {ButtonWrap as Style} from '../../styles/record.styles';
 import {useNavigation} from '@react-navigation/native';
+import {RecordType} from '../../types/types';
 
 interface PropsType {
   record: string;
-  createDB: () => void;
-  updateDB: () => void;
+  state: RecordType;
 }
 
-const ButtonWrap = ({record, createDB, updateDB}: PropsType) => {
+const ButtonWrap = ({record, state}: PropsType) => {
   const navigation = useNavigation();
 
   const onGoBackPress = () => {
@@ -20,9 +23,9 @@ const ButtonWrap = ({record, createDB, updateDB}: PropsType) => {
 
   const onSavePress = () => {
     if (record === 'CREATE') {
-      createDB();
+      createRecord(state);
     } else {
-      updateDB();
+      updateRecord(state);
     }
 
     navigation.goBack();

@@ -1,14 +1,3 @@
-// 테스트 스키마
-export const TestSchema = {
-  name: 'Test',
-  properties: {
-    _id: 'int',
-    name: 'string',
-    age: 'int',
-  },
-  primaryKey: '_id',
-};
-
 // 운행기록 스키마
 export const RecordSchema = {
   name: 'Record',
