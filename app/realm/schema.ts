@@ -13,8 +13,7 @@ export const TestSchema = {
 export const RecordSchema = {
   name: 'Record',
   properties: {
-    date: 'string', // 날짜는 문자열로 저장할 수 있습니다.
-    // 기본값을 지정할 수 있습니다.
+    date: 'string',
     card: 'int',
     cash: 'int', // 현금
     lpgInjectionVolume: 'int', // LPG 주입량

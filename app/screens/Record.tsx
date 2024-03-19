@@ -1,5 +1,11 @@
 // react, react-native
-import {useCallback, useEffect, useReducer, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 // library
@@ -17,7 +23,6 @@ import ButtonWrap from '../components/record/ButtonWrap';
 // style
 import {Record as Style} from '../styles/record.styles';
 import * as RecordReducer from '../reducers/recordReducer';
-import {Button} from 'react-native';
 
 type RootStackParamList = {
   Profile: {postDate: string};
@@ -108,15 +113,15 @@ const Record = ({route}: profileProps) => {
     }
   };
 
-  const readAllDB = () => {
-    const data = realm.current?.objects('Record');
+  // const readAllDB = () => {
+  //   const data = realm.current?.objects('Record');
 
-    if (data) {
-      console.log('현재 데이터:', data);
-    } else {
-      console.log('데이터가 없습니다.', data);
-    }
-  };
+  //   if (data) {
+  //     console.log('현재 데이터:', data);
+  //   } else {
+  //     console.log('데이터가 없습니다.', data);
+  //   }
+  // };
 
   // const deleteAllDB = () => {
   //   const data = realm.current?.objects('Record');
@@ -144,7 +149,7 @@ const Record = ({route}: profileProps) => {
       {/* 취소, 저장 */}
       <ButtonWrap record={record} createDB={createDB} updateDB={updateDB} />
 
-      <Button onPress={readAllDB} title={'전체 데이터 읽기'} />
+      {/* <Button onPress={readAllDB} title={'전체 데이터 읽기'} /> */}
       {/* <Button onPress={createDB} title={'데이터 추가'} />
       <Button onPress={readDB} title={'데이터 읽기'} />
       <Button onPress={deleteAllDB} title={'전체 데이터 삭제'} /> */}

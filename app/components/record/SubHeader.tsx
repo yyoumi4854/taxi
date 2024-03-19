@@ -1,5 +1,5 @@
 // react, react-native
-import {Dispatch, SetStateAction, useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {SvgXml} from 'react-native-svg';
 

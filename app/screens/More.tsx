@@ -1,5 +1,5 @@
 // react, react-native
-import {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Text, View, Button} from 'react-native';
 
 // library

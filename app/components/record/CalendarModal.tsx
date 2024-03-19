@@ -1,5 +1,5 @@
 // react, react-native
-import {Dispatch, SetStateAction, useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import {Modal, View} from 'react-native';
 
 // library

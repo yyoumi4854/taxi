@@ -1,3 +1,6 @@
+// react, react-native
+import React from 'react';
+
 // assets, utils, realm, type
 import {RecordBoxType} from '../../types/types';
 

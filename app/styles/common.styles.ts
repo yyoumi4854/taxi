@@ -95,5 +95,49 @@ export const Modal = {
   buttonWrap: styled(View)`
     ${Theme.common.flexRowCenter}
     gap: 8px;
+    margin-top: 32px;
+  `,
+};
+
+interface CellType {
+  state?: 'today' | 'disabled';
+  week?: 'Sun' | 'Mon' | 'Tue' | 'Wed' | ' Thu' | '  Fri' | 'Sat';
+}
+
+export const Calendar = {
+  cell: styled(View)`
+    ${Theme.common.flexCenter}
+  `,
+  dayText: styled(Text)<CellType>`
+    /* 기본 텍스트 색상 */
+    color: ${Theme.colors.black};
+
+    /* 일요일 상태일 때의 색상 */
+    ${props =>
+      props.week === 'Sun' &&
+      `
+      color: ${Theme.colors.red};
+    `}
+
+    /* 토요일 상태일 때의 색상 */
+    ${props =>
+      props.week === 'Sat' &&
+      `
+      color: ${Theme.colors.blue};
+    `}
+
+    /* today 상태일 때의 색상 */
+    ${props =>
+      props.state === 'today' &&
+      `
+      color: ${Theme.colors.mainDeep};
+    `}
+
+    /* disable 상태일 때의 색상 */
+    ${props =>
+      props.state === 'disabled' &&
+      `
+      color: ${Theme.colors.grey};
+    `}
   `,
 };

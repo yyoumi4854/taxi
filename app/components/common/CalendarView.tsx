@@ -1,17 +1,28 @@
 // react, react-native
-import {Dispatch, SetStateAction} from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {View} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {SvgXml} from 'react-native-svg';
 
 // library
+import Realm from 'realm';
+import dayjs from 'dayjs';
 
-// assets, utils, realm
+// assets, realm
+import {RecordSchema} from '../../realm/schema';
 import {svg} from '../../assets/svg';
 
 // component
 
 // style
+import Theme from '../../styles/Theme';
+import {RecordType} from '../../types/types';
 
 LocaleConfig.locales['ko'] = {
   monthNames: [
@@ -62,40 +73,78 @@ interface PropsType {
 }
 
 const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
-  // realm에서 기록한 날짜 가져오기
-  const markedDates: Record<string, {marked: true}> = {
-    '2024-03-06': {marked: true},
-    '2024-03-07': {marked: true},
-    '2024-03-08': {marked: true},
+  // 현재 날짜: 년-월-일
+  const currentDate = dayjs().format('YYYY-MM-DD');
+
+  // realm에서 기록한 날짜 담기
+  const [markedDate, setMarkedDate] = useState<
+    Record<string, {marked: boolean}>
+  >({});
+
+  const realm = useRef<Realm>();
+
+  const openLocalDB = async () => {
+    realm.current = await Realm.open({schema: [RecordSchema]});
+    console.log('realmDB 열기!');
+
+    readMarkedAllDB();
+  };
+
+  // realmDB 열기, 닫기
+  useEffect(() => {
+    openLocalDB();
+
+    return () => {
+      realm.current?.close();
+      console.log('realmDB 닫기!');
+    };
+  }, []);
+
+  const readMarkedAllDB = () => {
+    const data = realm.current?.objects<RecordType>('Record');
+    const newMarkedDate: Record<string, {marked: true}> = {};
+
+    if (data) {
+      data.forEach(record => {
+        if (record.date) {
+          newMarkedDate[record.date] = {marked: true};
+        }
+      });
+      setMarkedDate({...newMarkedDate});
+    } else {
+      console.log('데이터가 없습니다.');
+    }
   };
 
   const markedSelectedDates = {
-    ...markedDates,
+    ...markedDate,
     [checkDate]: {
       selected: true,
-      marked: markedDates[checkDate]?.marked,
-      dotColor: '#FF7B00',
+      marked: markedDate[checkDate]?.marked,
+      dotColor: Theme.colors.mainDeep,
       customStyles: {
         container: {
-          backgroundColor: '#FFEFD2',
+          backgroundColor: `${Theme.colors.mainLight}`,
           borderRadius: 10,
         },
         text: {
-          color: '#333',
+          color: `${Theme.colors.black}`,
         },
       },
     },
   };
 
   const customTheme = {
-    // year, month
-    textSectionTitleColor: '#333',
-    textSectionTitleDisabledColor: '#333',
-    textDayHeaderFontSize: 16,
-    // dot
     dotColor: '#FF7B00',
+    // year, month
+    textSectionTitleColor: `${Theme.colors.black}`,
+    textSectionTitleDisabledColor: `${Theme.colors.black}`,
+    // day of week, day
+    textDayHeaderFontSize: 14,
+    textDayFontSize: 14,
+    textDisabledColor: `${Theme.colors.grey}`,
     // today
-    todayTextColor: '#FF7B00',
+    todayTextColor: `${Theme.colors.mainDeep}`,
   };
 
   // {"dateString": "2024-03-18", "day": 18, "month": 3, "timestamp": 1710720000000, "year": 2024}
@@ -105,12 +154,12 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
 
   return (
     <View>
-      {/* Calendar */}
       <Calendar
         markingType={'custom'}
         markedDates={markedSelectedDates}
         onDayPress={onDayPress}
-        // theme={customTheme}
+        maxDate={currentDate}
+        theme={customTheme}
         monthFormat={'yyyy년 M월'}
         renderArrow={direction =>
           direction === 'left' ? (
@@ -120,6 +169,32 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
           )
         }
       />
+
+      {/* <Calendar
+        markingType={'custom'}
+        markedDates={markedDates} // 선택한 날짜 표시
+        onDayPress={onDayPress} // 날짜 선택 시 호출되는 콜백 함수
+        monthFormat={'yyyy년 M월'}
+        maxDate={currentDate}
+        renderArrow={direction =>
+          direction === 'left' ? (
+            <SvgXml xml={svg.prev} />
+          ) : (
+            <SvgXml xml={svg.next} />
+          )
+        }
+        dayComponent={({date, state}: any) => {
+          return (
+            <Style.cell>
+              <Style.dayText
+                state={state}
+                week={dayjs(date?.dateString).format('ddd')}>
+                {date?.day}
+              </Style.dayText>
+            </Style.cell>
+          );
+        }}
+      /> */}
     </View>
   );
 };

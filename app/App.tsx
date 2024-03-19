@@ -1,19 +1,9 @@
 // react, react-native
+import React from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import StackNavigator from './navigation/StackNavigator';
-import {setCustomText} from 'react-native-global-props';
 
 const App = () => {
-  // 글로벌 폰트
-  const customTextProps = {
-    style: {
-      fontFamily: 'NotoSansKRRegular',
-      fontSize: 14,
-      color: '#333',
-    },
-  };
-  setCustomText(customTextProps);
-
   // 네비게이션 테마
   const customTheme = {
     ...DefaultTheme,

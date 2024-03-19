@@ -1,8 +1,18 @@
 // react, react-native
-import {Text} from 'react-native';
+import React, {View} from 'react-native';
+import CalendarView from '../components/common/CalendarView';
+import {useState} from 'react';
+import dayjs from 'dayjs';
 
 const Calendar = () => {
-  return <Text>캘린더 스크린</Text>;
+  // 현재 날짜: 년-월-일
+  const currentDate = dayjs().format('YYYY-MM-DD');
+  const [checkDate, setCheckDate] = useState(currentDate);
+  return (
+    <View>
+      <CalendarView checkDate={checkDate} setCheckDate={setCheckDate} />
+    </View>
+  );
 };
 
 export default Calendar;
