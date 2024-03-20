@@ -1,9 +1,8 @@
 // react, react-native
+import React from 'react';
 import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SvgXml} from 'react-native-svg';
-
-// library
 
 // assets, utils, realm
 import {svg} from '../../assets/svg';

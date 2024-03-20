@@ -54,3 +54,13 @@ export const updateRecord = (newData: RecordType) => {
 };
 
 // DELETE
+export const deleteRecord = (selectDate: string) => {
+  const selectDateData = realm
+    .objects('Record')
+    .filtered(`date = '${selectDate}'`)[0];
+
+  realm.write(() => {
+    realm.delete(selectDateData);
+  });
+  console.log(`${selectDate} 데이터가 삭제되었습니다.`);
+};

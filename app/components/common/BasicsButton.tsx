@@ -1,3 +1,6 @@
+// react, react-native
+import React from 'react';
+
 // style
 import {BasicsButton as Style} from '../../styles/common.styles';
 

@@ -2,10 +2,6 @@
 import React, {useCallback, useEffect, useReducer, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-// library
-
-// realm
-
 // component
 import SubHeader from '../components/record/SubHeader';
 import DrivingInfoRecord from '../components/record/DrivingInfoRecord';

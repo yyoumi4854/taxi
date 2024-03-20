@@ -1,6 +1,5 @@
 // react, react-native
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {View} from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {SvgXml} from 'react-native-svg';
 
@@ -130,7 +129,7 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
   };
 
   return (
-    <View>
+    <>
       <Calendar
         markingType={'custom'}
         markedDates={markedSelectedDates}
@@ -172,7 +171,7 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
           );
         }}
       /> */}
-    </View>
+    </>
   );
 };
 

@@ -44,7 +44,9 @@ export const reducer = (
         fuelEfficiency: fuelEfficiency,
       };
     case 'updateLpgUsage':
-      const updateLpgUsage = Math.round(state.mileage / state.fuelEfficiency);
+      const updateLpgUsage = state.fuelEfficiency
+        ? Math.round(state.mileage / state.fuelEfficiency)
+        : 0;
       return {...state, lpgUsage: updateLpgUsage};
     default:
       return state;

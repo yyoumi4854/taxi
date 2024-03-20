@@ -1,13 +1,16 @@
-// realm
+// react, react-native
+import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+
+// realm, types
 import {createRecord, updateRecord} from '../../realm/recordRealmFunctions';
+import {RecordType} from '../../types/types';
 
 // component
 import BasicsButton from '../common/BasicsButton';
 
 // style
 import {ButtonWrap as Style} from '../../styles/record.styles';
-import {useNavigation} from '@react-navigation/native';
-import {RecordType} from '../../types/types';
 
 interface PropsType {
   record: string;

@@ -92,6 +92,23 @@ export const Modal = {
     color: ${Theme.colors.black};
     margin-top: 4px;
   `,
+  textWrap: styled(View)`
+    ${Theme.common.flexCenter}
+  `,
+  title: styled(Text)`
+    ${Theme.fontCommon.medium}
+    font-family: ${Theme.fonts.bold};
+    color: ${Theme.colors.black};
+  `,
+  text: styled(Text)`
+    margin-top: 16px;
+    ${Theme.fontCommon.base}
+    color: ${Theme.colors.black};
+    text-align: center;
+  `,
+  orangeText: styled(Text)`
+    color: ${Theme.colors.main};
+  `,
   buttonWrap: styled(View)`
     ${Theme.common.flexRowCenter}
     gap: 8px;

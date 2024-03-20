@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {SvgXml} from 'react-native-svg';
 
 // library
+import dayjs from 'dayjs';
 
 // assets, utils, realm
 import {svg} from '../../assets/svg';
@@ -13,7 +14,6 @@ import CalendarModal from './CalendarModal';
 
 // style
 import {SubHeader as Style} from '../../styles/record.styles';
-import dayjs from 'dayjs';
 
 interface PropsType {
   selectDate: string;
