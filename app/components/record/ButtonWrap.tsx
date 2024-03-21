@@ -3,8 +3,18 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 // realm, types
-import {createRecord, updateRecord} from '../../realm/recordRealmFunctions';
+import {
+  createRecord,
+  readAllRecord,
+  updateRecord,
+} from '../../realm/recordRealmFunctions';
 import {RecordType} from '../../types/types';
+
+// library
+import {useSetRecoilState} from 'recoil';
+
+// recoil
+import {recordState} from '../../recoil/atoms';
 
 // component
 import BasicsButton from '../common/BasicsButton';
@@ -19,6 +29,7 @@ interface PropsType {
 
 const ButtonWrap = ({record, state}: PropsType) => {
   const navigation = useNavigation();
+  const setRecordData = useSetRecoilState(recordState);
 
   const onGoBackPress = () => {
     navigation.goBack();
@@ -30,6 +41,9 @@ const ButtonWrap = ({record, state}: PropsType) => {
     } else {
       updateRecord(state);
     }
+
+    const data = readAllRecord();
+    setRecordData(data.map(record => ({...record})));
 
     navigation.goBack();
   };

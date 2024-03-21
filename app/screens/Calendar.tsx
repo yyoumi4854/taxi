@@ -3,12 +3,11 @@ import React, {useCallback, useEffect, useState} from 'react';
 
 // library
 import dayjs from 'dayjs';
+import {useRecoilValue} from 'recoil';
 
-// realm
-import {
-  readAllRecord,
-  readSelectDateRecord,
-} from '../realm/recordRealmFunctions';
+// realm, recoil
+import {readSelectDateRecord} from '../realm/recordRealmFunctions';
+import {recordState} from '../recoil/atoms';
 
 // component
 import CalendarView from '../components/common/CalendarView';
@@ -29,14 +28,15 @@ const Calendar = () => {
   // selectDate가 realm에 있는지 체크
   const readDB = useCallback(() => {
     const selectDateData = readSelectDateRecord(selectDate);
-
     setIsRecord(selectDateData ? true : false);
   }, [selectDate]);
 
+  const recordData = useRecoilValue(recordState);
+
   useEffect(() => {
     readDB();
-    readAllRecord();
-  }, [readDB, selectDate]);
+    // readAllRecord();
+  }, [readDB, selectDate, recordData]);
 
   return (
     <Style.container>

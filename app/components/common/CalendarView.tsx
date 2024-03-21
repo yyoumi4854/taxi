@@ -5,6 +5,7 @@ import {SvgXml} from 'react-native-svg';
 
 // library
 import dayjs from 'dayjs';
+import {useRecoilValue} from 'recoil';
 
 // assets, realm
 import {svg} from '../../assets/svg';
@@ -14,6 +15,7 @@ import {svg} from '../../assets/svg';
 // style
 import Theme from '../../styles/Theme';
 import {readAllRecord} from '../../realm/recordRealmFunctions';
+import {recordState} from '../../recoil/atoms';
 
 LocaleConfig.locales['ko'] = {
   monthNames: [
@@ -66,6 +68,7 @@ interface PropsType {
 const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
   // 현재 날짜: 년-월-일
   const currentDate = dayjs().format('YYYY-MM-DD');
+  const recordData = useRecoilValue(recordState);
 
   // realm에서 기록한 날짜 담기
   const [markedDate, setMarkedDate] = useState<
@@ -90,7 +93,7 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
 
   useEffect(() => {
     readMarkedAllDB();
-  }, []);
+  }, [recordData]);
 
   const markedSelectedDates = {
     ...markedDate,

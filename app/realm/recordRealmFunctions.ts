@@ -1,5 +1,7 @@
+// library
 import Realm from 'realm';
 
+// realm, type, recoil
 import {RecordSchema} from './schema';
 import {RecordType} from '../types/types';
 
@@ -17,7 +19,8 @@ export const createRecord = (newData: RecordType) => {
 
 // READ_All
 export const readAllRecord = () => {
-  return realm.objects<RecordType>('Record');
+  const data = realm.objects<RecordType>('Record');
+  return data;
 };
 
 // READ : 선택한 날짜의 데이터

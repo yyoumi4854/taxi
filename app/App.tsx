@@ -2,6 +2,7 @@
 import React from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import StackNavigator from './navigation/StackNavigator';
+import {RecoilRoot} from 'recoil';
 
 const App = () => {
   // 네비게이션 테마
@@ -14,9 +15,11 @@ const App = () => {
   };
 
   return (
-    <NavigationContainer theme={customTheme}>
-      <StackNavigator />
-    </NavigationContainer>
+    <RecoilRoot>
+      <NavigationContainer theme={customTheme}>
+        <StackNavigator />
+      </NavigationContainer>
+    </RecoilRoot>
   );
 };
 

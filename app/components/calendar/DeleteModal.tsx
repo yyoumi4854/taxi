@@ -4,9 +4,11 @@ import {Modal} from 'react-native';
 
 // library
 import dayjs from 'dayjs';
+import {useSetRecoilState} from 'recoil';
 
-// realm
-import {deleteRecord} from '../../realm/recordRealmFunctions';
+// realm, recoil
+import {deleteRecord, readAllRecord} from '../../realm/recordRealmFunctions';
+import {recordState} from '../../recoil/atoms';
 
 // component
 import BasicsButton from '../common/BasicsButton';
@@ -25,13 +27,18 @@ const DeleteModal = ({
   setModalVisible,
   selectDate,
 }: PropsType) => {
+  const setRecordData = useSetRecoilState(recordState);
+
   const onCancelPress = () => {
     setModalVisible(false);
   };
 
-  const onDelectPress = () => {
+  const onDeletePress = () => {
     deleteRecord(selectDate);
     setModalVisible(false);
+
+    const data = readAllRecord();
+    setRecordData(data.map(record => ({...record})));
   };
 
   return (
@@ -65,7 +72,7 @@ const DeleteModal = ({
               option={'cancel'}
               onButtonPress={onCancelPress}
             />
-            <BasicsButton text={'삭제'} onButtonPress={onDelectPress} />
+            <BasicsButton text={'삭제'} onButtonPress={onDeletePress} />
           </Style.buttonWrap>
         </Style.container>
       </Style.modalWrap>
