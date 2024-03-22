@@ -1,7 +1,11 @@
 // react, react-native
 import React from 'react';
 import {View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+} from '@react-navigation/native';
 import {SvgXml} from 'react-native-svg';
 
 // assets, utils, realm
@@ -17,7 +21,7 @@ interface PropsType {
 }
 
 const CreateButton = ({currentDate}: PropsType) => {
-  const navigation = useNavigation();
+  const navigation: NavigationProp<ParamListBase> = useNavigation();
 
   const onNavigationPress = () => {
     navigation.navigate('Record', {postDate: currentDate});

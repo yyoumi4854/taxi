@@ -1,6 +1,10 @@
 // react, react-native
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+} from '@react-navigation/native';
 
 // component
 import BasicsButton from '../common/BasicsButton';
@@ -13,7 +17,7 @@ interface PropsType {
 }
 
 const NoneRecordInfo = ({selectDate}: PropsType) => {
-  const navigation = useNavigation();
+  const navigation: NavigationProp<ParamListBase> = useNavigation();
 
   const onNavigationPress = () => {
     navigation.navigate('Record', {postDate: selectDate});

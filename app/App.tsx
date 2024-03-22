@@ -2,6 +2,8 @@
 import React from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import StackNavigator from './navigation/StackNavigator';
+
+// library
 import {RecoilRoot} from 'recoil';
 
 const App = () => {

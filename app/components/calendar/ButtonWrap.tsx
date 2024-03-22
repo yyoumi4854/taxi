@@ -1,6 +1,10 @@
 // react, react-native
 import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+} from '@react-navigation/native';
 
 // component
 import BasicsButton from '../common/BasicsButton';
@@ -14,7 +18,7 @@ interface PropsType {
 }
 
 const ButtonWrap = ({selectDate}: PropsType) => {
-  const navigation = useNavigation();
+  const navigation: NavigationProp<ParamListBase> = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
 

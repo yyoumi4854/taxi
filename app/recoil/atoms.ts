@@ -1,6 +1,10 @@
+// library
 import {atom} from 'recoil';
 
-export const recordState = atom({
+// types
+import {RecordType} from '../types/types';
+
+export const recordState = atom<RecordType[]>({
   key: 'recordState',
   default: [],
 });

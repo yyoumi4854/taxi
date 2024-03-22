@@ -38,7 +38,7 @@ const Home = () => {
     이렇게 하면 Recoil 상태가 변경되고, 해당 변경 내용이 React 컴포넌트에 반영됩니다.
      */
     setRecordData(data.map(record => ({...record})));
-  }, []);
+  }, [setRecordData]);
 
   return (
     <Style.container>

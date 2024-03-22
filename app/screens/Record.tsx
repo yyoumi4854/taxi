@@ -14,13 +14,13 @@ import * as RecordReducer from '../reducers/recordReducer';
 import {readSelectDateRecord} from '../realm/recordRealmFunctions';
 
 type RootStackParamList = {
-  Profile: {postDate: string};
+  Record: {postDate: string};
 };
 
-type profileProps = NativeStackScreenProps<RootStackParamList, 'Profile'>;
+type RecordScreenProps = NativeStackScreenProps<RootStackParamList, 'Record'>;
 
 // 추가하기(+버튼 클릭시), 수정하기(달력에서 날짜 클릭, 수정 클릭)
-const Record = ({route}: profileProps) => {
+const Record = ({route}: RecordScreenProps) => {
   const {postDate} = route.params;
 
   const [selectDate, setSelectDate] = useState(postDate); // 선택한 날짜

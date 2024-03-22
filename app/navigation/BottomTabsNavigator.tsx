@@ -11,6 +11,9 @@ import Calendar from '../screens/Calendar';
 import Chart from '../screens/Chart';
 import More from '../screens/More';
 
+// style
+import Theme from '../styles/Theme';
+
 const BottomTabsNavigator = () => {
   const Tab = createBottomTabNavigator();
 
@@ -21,11 +24,11 @@ const BottomTabsNavigator = () => {
         headerShown: false,
         tabBarStyle: {
           height: 48,
-          borderTopColor: '#D9D9D9',
+          borderTopColor: `${Theme.colors.grey}`,
           elevation: 0,
         },
-        tabBarActiveTintColor: '#FFA800',
-        tabBarInactiveTintColor: '#D9D9D9',
+        tabBarActiveTintColor: `${Theme.colors.main}`,
+        tabBarInactiveTintColor: `${Theme.colors.grey}`,
         tabBarShowLabel: false,
       }}>
       <Tab.Screen

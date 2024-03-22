@@ -35,7 +35,6 @@ const Calendar = () => {
 
   useEffect(() => {
     readDB();
-    // readAllRecord();
   }, [readDB, selectDate, recordData]);
 
   return (
