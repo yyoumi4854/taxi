@@ -1,39 +1,43 @@
 // react, react-native
-import {Dispatch, SetStateAction} from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {View} from 'react-native';
 import {SvgXml} from 'react-native-svg';
 
 // library
 import dayjs from 'dayjs';
 
-// assets, utils, realm
+// assets
 import {svg} from '../../assets/svg';
-
-// component
 
 // style
 import {MonthCalendar as Style} from '../../styles/home.styles';
+import Theme from '../../styles/Theme';
 
 interface PropsType {
-  currentDate: string;
-  selectDate: string;
-  setSelectDate: Dispatch<SetStateAction<string>>;
+  currentMonth: string; // 현재 달
+  selectMonth: string;
+  setSelectMonth: Dispatch<SetStateAction<string>>;
 }
 
-const MonthCalendar = ({currentDate, selectDate, setSelectDate}: PropsType) => {
+// 다음달 확인 못하게 막기
+const MonthCalendar = ({
+  currentMonth,
+  selectMonth,
+  setSelectMonth,
+}: PropsType) => {
   // 이전 달력으로 이동
   const onPrevPress = () => {
-    const newDate = dayjs(selectDate).subtract(1, 'month').format('YYYY-MM-DD');
-    setSelectDate(newDate);
+    const nextMonth = dayjs(selectMonth).subtract(1, 'month').format('YYYY-MM');
+    setSelectMonth(nextMonth);
   };
   // 다음 달력으로 이동
   const onNextPress = () => {
-    const newDate = dayjs(selectDate).add(1, 'month').format('YYYY-MM-DD');
-    setSelectDate(newDate);
+    const nextMonth = dayjs(selectMonth).add(1, 'month').format('YYYY-MM');
+    setSelectMonth(nextMonth);
   };
   // 현재 달로 이동
   const onCurrentPress = () => {
-    setSelectDate(currentDate);
+    setSelectMonth(currentMonth);
   };
 
   return (
@@ -46,12 +50,21 @@ const MonthCalendar = ({currentDate, selectDate, setSelectDate}: PropsType) => {
           </View>
         </Style.iconButton>
 
-        <Style.text>{dayjs(selectDate).format('YYYY년 MM월')}</Style.text>
+        <Style.text>{dayjs(selectMonth).format('YYYY년 MM월')}</Style.text>
 
         {/* 다음달 이동 */}
-        <Style.iconButton onPress={onNextPress}>
+        <Style.iconButton
+          onPress={onNextPress}
+          disabled={currentMonth === selectMonth}>
           <View>
-            <SvgXml xml={svg.next} />
+            <SvgXml
+              xml={svg.next}
+              fill={
+                currentMonth === selectMonth
+                  ? Theme.colors.grey
+                  : Theme.colors.black
+              }
+            />
           </View>
         </Style.iconButton>
       </Style.centerWrap>

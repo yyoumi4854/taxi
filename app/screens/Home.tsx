@@ -6,7 +6,7 @@ import {ScrollView} from 'react-native';
 import dayjs from 'dayjs';
 
 // assets, utils, realm
-import {useSetRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {recordState} from '../recoil/atoms.ts';
 import {readAllRecord} from '../realm/recordRealmFunctions.ts';
 
@@ -20,11 +20,26 @@ import CreateButton from '../components/home/CreateButton.tsx';
 // style
 import {Home as Style} from '../styles/home.styles.ts';
 
+/**
+<<달마다 합산>>
+operatingAmount : 총합 // 영업 금액
+card : 총합 // 카드
+현금 : 총합 // 현금
+lpgInjectionVolume : 총합 // LPG 주입량
+lpgUnitPrice : 단가 총합 / 해당달의 갯수 -> 반올림 // LPG 평균 단가
+mileage : 총합 // 주행거리
+businessDistance : 총합 // 영업거리
+toll : 더하기 // 통행료
+lpgChargeAmount : 주입량 총합 * LPG 평균 단가 // LPG 충전 금액
+fuelEfficiency : 주행거리 총합 / LPG 주입량 총합 -> 반올림 // 연비
+lpgUsage : 주행거리 총합 / (주행거리 총합 / LPG 주입량 총합) -> 반올림 // LPG 사용량
+ */
+
 const Home = () => {
   // 현재 날짜: 년-월-일
-  const currentDate = dayjs().format('YYYY-MM-DD');
-  const [selectDate, setSelectDate] = useState(currentDate);
-  const setRecordData = useSetRecoilState(recordState);
+  const currentMonth = dayjs().format('YYYY-MM');
+  const [selectMonth, setSelectMonth] = useState(currentMonth);
+  const [recordData, setRecordData] = useRecoilState(recordState);
 
   useEffect(() => {
     const data = readAllRecord();
@@ -40,6 +55,55 @@ const Home = () => {
     setRecordData(data.map(record => ({...record})));
   }, [setRecordData]);
 
+  // 선택한 달의 데이터 필터
+  const selectMonthData = recordData.filter(data => {
+    return dayjs(data.date).format('YYYY-MM') === selectMonth;
+  });
+
+  const monthTotalData = selectMonthData.reduce(
+    (acc, curr) => {
+      acc.card += curr.card; // 카드
+      acc.cash += curr.cash; // 현금
+      acc.lpgInjectionVolume += curr.lpgInjectionVolume; // LPG 주입량
+      acc.lpgUnitPrice += curr.lpgUnitPrice; // LPG 단가
+      acc.mileage += curr.mileage; // 주행거리
+      acc.businessDistance += curr.businessDistance; // 영업거리
+      acc.toll += curr.toll; // 통행료
+      acc.operatingAmount += curr.operatingAmount; // 영업 금액
+      return acc;
+    },
+    {
+      date: selectMonth, // 날짜
+      card: 0, // 카드
+      cash: 0, // 현금
+      lpgInjectionVolume: 0, // LPG 주입량
+      lpgUnitPrice: 0, // LPG 단가
+      mileage: 0, // 주행거리
+      businessDistance: 0, // 영업거리
+      toll: 0, // 통행료
+      operatingAmount: 0, // 영업금액
+      lpgChargeAmount: 0, // LPG 충전 금액
+      fuelEfficiency: 0, // 연비
+      lpgUsage: 0, // LPG 사용량
+    },
+  );
+
+  monthTotalData.lpgUnitPrice = selectMonthData.length
+    ? Math.round(monthTotalData.lpgUnitPrice / selectMonthData.length)
+    : 0; // LPG 평균 단가
+  monthTotalData.lpgChargeAmount =
+    monthTotalData.lpgInjectionVolume * monthTotalData.lpgUnitPrice; // LPG 충전 금액
+  monthTotalData.fuelEfficiency = monthTotalData.lpgInjectionVolume
+    ? Math.round(monthTotalData.mileage / monthTotalData.lpgInjectionVolume)
+    : 0; // 연비
+  monthTotalData.lpgUsage =
+    monthTotalData.mileage / monthTotalData.lpgInjectionVolume
+      ? Math.round(
+          monthTotalData.mileage /
+            (monthTotalData.mileage / monthTotalData.lpgInjectionVolume),
+        )
+      : 0; // LPG 사용량
+
   return (
     <Style.container>
       <ScrollView>
@@ -50,21 +114,21 @@ const Home = () => {
         <Style.bottomContainer>
           {/* 월별 달력 */}
           <MonthCalendar
-            currentDate={currentDate}
-            selectDate={selectDate}
-            setSelectDate={setSelectDate}
+            currentMonth={currentMonth}
+            selectMonth={selectMonth}
+            setSelectMonth={setSelectMonth}
           />
 
           {/* 이번달 영업 금액 */}
-          <MonthBusinessAmount />
+          <MonthBusinessAmount monthTotalData={monthTotalData} />
 
           {/* 이번달 운행 정보 */}
-          <MonthRecordInfo />
+          <MonthRecordInfo monthTotalData={monthTotalData} />
         </Style.bottomContainer>
       </ScrollView>
 
       {/* create 버튼 */}
-      <CreateButton currentDate={currentDate} />
+      <CreateButton />
     </Style.container>
   );
 };

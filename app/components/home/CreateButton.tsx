@@ -8,19 +8,19 @@ import {
 } from '@react-navigation/native';
 import {SvgXml} from 'react-native-svg';
 
+// library
+import dayjs from 'dayjs';
+
 // assets, utils, realm
 import {svg} from '../../assets/svg';
 
-// component
-
 // style
+import Theme from '../../styles/Theme';
 import {CreateButton as Style} from '../../styles/home.styles';
 
-interface PropsType {
-  currentDate: string;
-}
+const CreateButton = () => {
+  const currentDate = dayjs().format('YYYY-MM-DD');
 
-const CreateButton = ({currentDate}: PropsType) => {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
 
   const onNavigationPress = () => {
@@ -30,7 +30,7 @@ const CreateButton = ({currentDate}: PropsType) => {
   return (
     <Style.button onPress={onNavigationPress}>
       <View>
-        <SvgXml xml={svg.plus} fill="#FFA800" />
+        <SvgXml xml={svg.plus} fill={Theme.colors.main} />
       </View>
     </Style.button>
   );

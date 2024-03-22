@@ -1,33 +1,42 @@
 // react, react-native
+import React from 'react';
 
-// library
-
-// assets, utils, realm
-
-// component
+// types, utils
+import {RecordType} from '../../types/types';
+import {numberCommas} from '../../utils/calculate';
 
 // style
 import {MonthBusinessAmount as Style} from '../../styles/home.styles';
 
-const MonthBusinessAmount = () => {
+interface PropsType {
+  monthTotalData: RecordType;
+}
+
+const MonthBusinessAmount = ({monthTotalData}: PropsType) => {
   return (
     <Style.container>
       <Style.topWrap>
         <Style.title>영업금액</Style.title>
-        <Style.moneyValueText>2,000,000원</Style.moneyValueText>
+        <Style.moneyValueText>
+          {numberCommas(monthTotalData.operatingAmount)}원
+        </Style.moneyValueText>
       </Style.topWrap>
 
       <Style.bottomWrap>
         <Style.bottomBox>
           <Style.subTitle>카드</Style.subTitle>
-          <Style.subValueText>2,000,000원</Style.subValueText>
+          <Style.subValueText>
+            {numberCommas(monthTotalData.card)}원
+          </Style.subValueText>
         </Style.bottomBox>
 
         <Style.line></Style.line>
 
         <Style.bottomBox>
           <Style.subTitle>현금</Style.subTitle>
-          <Style.subValueText>2,000,000원</Style.subValueText>
+          <Style.subValueText>
+            {numberCommas(monthTotalData.cash)}원
+          </Style.subValueText>
         </Style.bottomBox>
       </Style.bottomWrap>
     </Style.container>

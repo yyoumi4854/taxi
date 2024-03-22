@@ -1,8 +1,9 @@
 // react, react-native
+import React from 'react';
 
-// library
-
-// assets, utils, realm
+// types, utils
+import {RecordType} from '../../types/types';
+import {numberCommas} from '../../utils/calculate';
 
 // component
 import RecordBox from '../common/RecordBox';
@@ -11,24 +12,57 @@ import RecordBox from '../common/RecordBox';
 import {MonthRecordInfo as Style} from '../../styles/home.styles';
 import {RecordBox as RecordBoxStyle} from '../../styles/common.styles';
 
-const MonthRecordInfo = () => {
+interface PropsType {
+  monthTotalData: RecordType;
+}
+
+const MonthRecordInfo = ({monthTotalData}: PropsType) => {
   return (
     <Style.container>
       <RecordBoxStyle.wrap>
-        <RecordBox title="LPG 주입량" state={10} unit="L" />
-        <RecordBox title="LPG 단가" state={10} />
-        <RecordBox title="LPG 충전 금액" state={10} option="orange" />
+        <RecordBox
+          title="LPG 주입량"
+          state={numberCommas(monthTotalData.lpgInjectionVolume)}
+          unit="L"
+        />
+        <RecordBox
+          title="LPG 평균 단가"
+          state={numberCommas(monthTotalData.lpgUnitPrice)}
+        />
+        <RecordBox
+          title="LPG 충전 금액"
+          state={numberCommas(monthTotalData.lpgChargeAmount)}
+          option="orange"
+        />
       </RecordBoxStyle.wrap>
 
       <RecordBoxStyle.wrap>
-        <RecordBox title="주행거리" state={10} unit="km" />
-        <RecordBox title="영업거리" state={10} unit="km" />
-        <RecordBox title="통행료" state={10} />
+        <RecordBox
+          title="주행거리"
+          state={numberCommas(monthTotalData.mileage)}
+          unit="km"
+        />
+        <RecordBox
+          title="영업거리"
+          state={numberCommas(monthTotalData.businessDistance)}
+          unit="km"
+        />
+        <RecordBox title="통행료" state={numberCommas(monthTotalData.toll)} />
       </RecordBoxStyle.wrap>
 
       <RecordBoxStyle.wrap>
-        <RecordBox title="연비" state={10} unit="km/L" option="orange" />
-        <RecordBox title="LPG 사용량" state={10} unit="L" option="orange" />
+        <RecordBox
+          title="연비"
+          state={numberCommas(monthTotalData.fuelEfficiency)}
+          unit="km/L"
+          option="orange"
+        />
+        <RecordBox
+          title="LPG 사용량"
+          state={numberCommas(monthTotalData.lpgUsage)}
+          unit="L"
+          option="orange"
+        />
       </RecordBoxStyle.wrap>
     </Style.container>
   );

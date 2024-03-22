@@ -35,9 +35,9 @@ export const reducer = (
         lpgChargeAmount: state.lpgInjectionVolume * state.lpgUnitPrice,
       };
     case 'updateFuelEfficiency':
-      const fuelEfficiency = Math.round(
-        state.mileage / state.lpgInjectionVolume,
-      );
+      const fuelEfficiency = state.lpgInjectionVolume
+        ? Math.round(state.mileage / state.lpgInjectionVolume)
+        : 0;
 
       return {
         ...state,

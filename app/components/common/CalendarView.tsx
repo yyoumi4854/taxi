@@ -1,5 +1,11 @@
 // react, react-native
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {SvgXml} from 'react-native-svg';
 
@@ -7,15 +13,12 @@ import {SvgXml} from 'react-native-svg';
 import dayjs from 'dayjs';
 import {useRecoilValue} from 'recoil';
 
-// assets, realm
+// assets, recoil
 import {svg} from '../../assets/svg';
-
-// component
+import {recordState} from '../../recoil/atoms';
 
 // style
 import Theme from '../../styles/Theme';
-import {readAllRecord} from '../../realm/recordRealmFunctions';
-import {recordState} from '../../recoil/atoms';
 
 LocaleConfig.locales['ko'] = {
   monthNames: [
@@ -66,21 +69,21 @@ interface PropsType {
 }
 
 const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
+  const recordData = useRecoilValue(recordState);
+
   // 현재 날짜: 년-월-일
   const currentDate = dayjs().format('YYYY-MM-DD');
-  const recordData = useRecoilValue(recordState);
 
   // realm에서 기록한 날짜 담기
   const [markedDate, setMarkedDate] = useState<
     Record<string, {marked: boolean}>
   >({});
 
-  const readMarkedAllDB = () => {
-    const data = readAllRecord();
+  const readMarkedAllDB = useCallback(() => {
     const newMarkedDate: Record<string, {marked: true}> = {};
 
-    if (data) {
-      data.forEach(record => {
+    if (recordData) {
+      recordData.forEach(record => {
         if (record.date) {
           newMarkedDate[record.date] = {marked: true};
         }
@@ -89,11 +92,11 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
     } else {
       console.log('데이터가 없습니다.');
     }
-  };
+  }, [recordData]);
 
   useEffect(() => {
     readMarkedAllDB();
-  }, [recordData]);
+  }, [readMarkedAllDB]);
 
   const markedSelectedDates = {
     ...markedDate,
@@ -114,7 +117,7 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
   };
 
   const customTheme = {
-    dotColor: '#FF7B00',
+    dotColor: `${Theme.colors.mainDeep}`,
     // year, month
     textSectionTitleColor: `${Theme.colors.black}`,
     textSectionTitleDisabledColor: `${Theme.colors.black}`,
@@ -144,7 +147,7 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
           direction === 'left' ? (
             <SvgXml xml={svg.prev} />
           ) : (
-            <SvgXml xml={svg.next} />
+            <SvgXml xml={svg.next} fill={Theme.colors.black} />
           )
         }
       />

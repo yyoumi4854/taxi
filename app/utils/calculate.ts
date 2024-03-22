@@ -17,6 +17,11 @@ export const fuelEfficiency = (mileage: number, lpgInjectionVolume: number) => {
 };
 
 // LPG 사용량 = 주행거리 / 연비
-export const lpgUsage = (mileage: number, fuelEfficiency: number) => {
-  return mileage / fuelEfficiency;
+export const lpgUsage = (mileage: number, fuelEfficiencyNum: number) => {
+  return mileage / fuelEfficiencyNum;
+};
+
+// 숫자 세 자리마다 쉼표 구분하여 표시
+export const numberCommas = (number: number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

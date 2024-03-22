@@ -1,5 +1,5 @@
 // react, react-native
-import {Dispatch} from 'react';
+import React, {Dispatch} from 'react';
 
 // assets, utils, realm, types
 import {RecordBoxType, RecordType} from '../../types/types';
@@ -45,7 +45,11 @@ const RecordInputBox = ({
     }
 
     // 주행거리 또는 연비 변경될 때 LPG 사용량 업데이트
-    if (name === 'mileage' || name === 'fuelEfficiency') {
+    if (
+      name === 'mileage' ||
+      name === 'fuelEfficiency' ||
+      name === 'lpgInjectionVolume'
+    ) {
       dispatch({type: 'updateLpgUsage'});
     }
   };
