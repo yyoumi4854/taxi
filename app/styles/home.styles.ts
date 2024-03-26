@@ -38,40 +38,6 @@ export const YearBusinessAmount = {
   `,
 };
 
-// MonthCalendar
-interface PositionType {
-  position?: boolean;
-}
-
-export const MonthCalendar = {
-  container: styled(View)`
-    padding: 8px 16px;
-  `,
-  centerWrap: styled(View)`
-    ${Theme.common.flexRowCenter}
-    gap: 8px;
-  `,
-  iconButton: styled(TouchableOpacity)<PositionType>`
-    ${Theme.common.flexCenter}
-    width: 32px;
-    height: 32px;
-
-    /* props에 position이 있으면 position 주기 */
-    ${props =>
-      props.position &&
-      `
-        position: absolute;
-        top: 8px;
-        right: 0;
-      `}
-  `,
-  text: styled(Text)`
-    font-family: ${Theme.fonts.medium};
-    ${Theme.fontCommon.large}
-    color: ${Theme.colors.black};
-  `,
-};
-
 // MonthBusinessAmount
 export const MonthBusinessAmount = {
   container: styled(View)`

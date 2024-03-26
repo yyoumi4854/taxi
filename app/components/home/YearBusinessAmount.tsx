@@ -16,7 +16,7 @@ const MonthBusinessAmount = () => {
   const currentYear = dayjs().format('YYYY');
   const recordData = useRecoilValue(recordState);
 
-  // 현재 년도의 데이터 가지고오기
+  // 현재 년도의 데이터 가져오기
   const selectYearData = recordData.filter(data => {
     return dayjs(data.date).format('YYYY') === currentYear;
   });

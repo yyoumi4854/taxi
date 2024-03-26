@@ -12,7 +12,7 @@ import {readAllRecord} from '../realm/recordRealmFunctions.ts';
 
 // component
 import YearBusinessAmount from '../components/home/YearBusinessAmount.tsx';
-import MonthCalendar from '../components/home/MonthCalendar.tsx';
+import CalendarTitle from '../components/home/CalendarTitle.tsx';
 import MonthBusinessAmount from '../components/home/MonthBusinessAmount.tsx';
 import MonthRecordInfo from '../components/home/MonthRecordInfo.tsx';
 import CreateButton from '../components/home/CreateButton.tsx';
@@ -36,8 +36,7 @@ lpgUsage : 주행거리 총합 / (주행거리 총합 / LPG 주입량 총합) ->
  */
 
 const Home = () => {
-  // 현재 날짜: 년-월-일
-  const currentMonth = dayjs().format('YYYY-MM');
+  const currentMonth = dayjs().format('YYYY-MM'); // 현재 달: 년-월
   const [selectMonth, setSelectMonth] = useState(currentMonth);
   const [recordData, setRecordData] = useRecoilState(recordState);
 
@@ -55,7 +54,7 @@ const Home = () => {
     setRecordData(data.map(record => ({...record})));
   }, [setRecordData]);
 
-  // 선택한 달의 데이터 필터
+  // 선택한 달 데이터 필터
   const selectMonthData = recordData.filter(data => {
     return dayjs(data.date).format('YYYY-MM') === selectMonth;
   });
@@ -88,21 +87,25 @@ const Home = () => {
     },
   );
 
+  // LPG 평균 단가
   monthTotalData.lpgUnitPrice = selectMonthData.length
     ? Math.round(monthTotalData.lpgUnitPrice / selectMonthData.length)
-    : 0; // LPG 평균 단가
+    : 0;
+  // LPG 충전 금액
   monthTotalData.lpgChargeAmount =
-    monthTotalData.lpgInjectionVolume * monthTotalData.lpgUnitPrice; // LPG 충전 금액
+    monthTotalData.lpgInjectionVolume * monthTotalData.lpgUnitPrice;
+  // 연비
   monthTotalData.fuelEfficiency = monthTotalData.lpgInjectionVolume
     ? Math.round(monthTotalData.mileage / monthTotalData.lpgInjectionVolume)
-    : 0; // 연비
+    : 0;
+  // LPG 사용량
   monthTotalData.lpgUsage =
     monthTotalData.mileage / monthTotalData.lpgInjectionVolume
       ? Math.round(
           monthTotalData.mileage /
             (monthTotalData.mileage / monthTotalData.lpgInjectionVolume),
         )
-      : 0; // LPG 사용량
+      : 0;
 
   return (
     <Style.container>
@@ -113,7 +116,7 @@ const Home = () => {
         {/* 월별 운행 기록 */}
         <Style.bottomContainer>
           {/* 월별 달력 */}
-          <MonthCalendar
+          <CalendarTitle
             currentMonth={currentMonth}
             selectMonth={selectMonth}
             setSelectMonth={setSelectMonth}

@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import {svg} from '../../assets/svg';
 
 // style
-import {MonthCalendar as Style} from '../../styles/home.styles';
+import {CalendarTitle as Style} from '../../styles/common.styles';
 import Theme from '../../styles/Theme';
 
 interface PropsType {
@@ -20,7 +20,7 @@ interface PropsType {
 }
 
 // 다음달 확인 못하게 막기
-const MonthCalendar = ({
+const CalendarTitle = ({
   currentMonth,
   selectMonth,
   setSelectMonth,
@@ -79,4 +79,4 @@ const MonthCalendar = ({
   );
 };
 
-export default MonthCalendar;
+export default CalendarTitle;
