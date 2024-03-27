@@ -62,7 +62,7 @@ const RecordInputBox = ({
           placeholder="0"
           keyboardType="numeric"
           value={state.toString()}
-          onChangeText={text => onChange(category, parseInt(text))}
+          onChangeText={text => onChange(category, parseInt(text, 10))}
         />
         <Style.unitText>{unit}</Style.unitText>
       </Style.inputWrap>

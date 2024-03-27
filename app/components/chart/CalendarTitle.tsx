@@ -33,6 +33,7 @@ const CalendarTitle = ({currentYear, selectYear, setSelectYear}: PropsType) => {
   const onCurrentPress = () => {
     setSelectYear(currentYear);
   };
+
   return (
     <Style.container>
       <Style.centerWrap>

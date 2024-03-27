@@ -1,4 +1,5 @@
 // react, react-native
+import React from 'react';
 import {Dispatch} from 'react';
 
 // component
@@ -91,7 +92,7 @@ const DrivingInfoRecord = ({state, dispatch}: PropsType) => {
           category="toll"
           dispatch={dispatch}
         />
-        <Style.fakeView></Style.fakeView>
+        <Style.fakeView />
       </Style.InputBoxWrap>
     </Style.container>
   );

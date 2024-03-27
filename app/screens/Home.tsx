@@ -20,21 +20,6 @@ import CreateButton from '../components/home/CreateButton.tsx';
 // style
 import {Home as Style} from '../styles/home.styles.ts';
 
-/**
-<<달마다 합산>>
-operatingAmount : 총합 // 영업 금액
-card : 총합 // 카드
-현금 : 총합 // 현금
-lpgInjectionVolume : 총합 // LPG 주입량
-lpgUnitPrice : 단가 총합 / 해당달의 갯수 -> 반올림 // LPG 평균 단가
-mileage : 총합 // 주행거리
-businessDistance : 총합 // 영업거리
-toll : 더하기 // 통행료
-lpgChargeAmount : 주입량 총합 * LPG 평균 단가 // LPG 충전 금액
-fuelEfficiency : 주행거리 총합 / LPG 주입량 총합 -> 반올림 // 연비
-lpgUsage : 주행거리 총합 / (주행거리 총합 / LPG 주입량 총합) -> 반올림 // LPG 사용량
- */
-
 const Home = () => {
   const currentMonth = dayjs().format('YYYY-MM'); // 현재 달: 년-월
   const [selectMonth, setSelectMonth] = useState(currentMonth);

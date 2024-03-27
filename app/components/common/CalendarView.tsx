@@ -13,9 +13,10 @@ import {SvgXml} from 'react-native-svg';
 import dayjs from 'dayjs';
 import {useRecoilValue} from 'recoil';
 
-// assets, recoil
+// assets, recoil, utils
 import {svg} from '../../assets/svg';
 import {recordState} from '../../recoil/atoms';
+import {markData} from '../../utils/recordCustomData';
 
 // style
 import Theme from '../../styles/Theme';
@@ -80,18 +81,9 @@ const CalendarView = ({checkDate, setCheckDate}: PropsType) => {
   >({});
 
   const readMarkedAllDB = useCallback(() => {
-    const newMarkedDate: Record<string, {marked: true}> = {};
+    const newMarkedDate = markData(recordData);
 
-    if (recordData) {
-      recordData.forEach(record => {
-        if (record.date) {
-          newMarkedDate[record.date] = {marked: true};
-        }
-      });
-      setMarkedDate({...newMarkedDate});
-    } else {
-      console.log('데이터가 없습니다.');
-    }
+    setMarkedDate({...newMarkedDate});
   }, [recordData]);
 
   useEffect(() => {

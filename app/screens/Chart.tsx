@@ -7,7 +7,7 @@ import {useRecoilValue} from 'recoil';
 
 // recoil, utils
 import {recordState} from '../recoil/atoms';
-import {chartMonthData, chartYearData} from '../utils/recordFilterData';
+import {chartMonthData, chartYearData} from '../utils/recordCustomData';
 
 // component
 import Tabs from '../components/chart/Tabs';

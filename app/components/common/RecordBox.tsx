@@ -1,7 +1,8 @@
 // react, react-native
 import React from 'react';
 
-// assets, utils, realm, type
+// utils, type
+import {numberCommas} from '../../utils/calculate';
 import {RecordBoxType} from '../../types/types';
 
 // style
@@ -17,7 +18,7 @@ const RecordBox = ({
     <Style.box option={option}>
       <Style.title option={option}>{title}</Style.title>
       <Style.valueTextWrap>
-        <Style.valueText>{`${state}${unit}`}</Style.valueText>
+        <Style.valueText>{`${numberCommas(state)}${unit}`}</Style.valueText>
       </Style.valueTextWrap>
     </Style.box>
   );

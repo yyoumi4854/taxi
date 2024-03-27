@@ -28,7 +28,7 @@ export interface RecordBoxType {
     | 'LPG 충전 금액'
     | '연비'
     | 'LPG 사용량';
-  state: number | string;
+  state: number;
   unit?: '원' | 'km' | 'km/L' | 'L';
   option?: 'basics' | 'orange';
 }

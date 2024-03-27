@@ -1,4 +1,5 @@
 // react, react-native
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SvgXml} from 'react-native-svg';
 
@@ -55,14 +56,14 @@ const BottomTabsNavigator = () => {
           tabBarIcon: ({color}) => <SvgXml xml={svg.cart} fill={color} />,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="More"
         component={More}
         options={{
           title: '더보기',
           tabBarIcon: ({color}) => <SvgXml xml={svg.more} fill={color} />,
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };
