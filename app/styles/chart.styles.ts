@@ -35,7 +35,7 @@ export const Tabs = {
   tabButton: styled(TouchableOpacity)<TabsType>`
     ${Theme.common.flexCenter}
     flex: 1;
-    height: 40px;
+    height: 48px;
     border-radius: 10px;
     background-color: ${props =>
       props.select ? Theme.colors.main : Theme.colors.lightGrey};
@@ -52,7 +52,7 @@ interface CenterType {
 }
 export const BarChartView = {
   wrap: styled(View)<CenterType>`
-    height: 230px;
+    height: 234px;
     background: ${Theme.colors.lightGrey};
     border-radius: 10px;
 
@@ -67,6 +67,8 @@ export const BarChartView = {
     padding: 20px 0;
     margin: 0 16px 0 4px;
     overflow: hidden;
+    text-align: start;
+    vertical-align: top;
   `,
 };
 

@@ -1,79 +1,124 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+## 프로젝트 제목
 
-# Getting Started
+![Group 102 1](https://github.com/yyoumi4854/taxi/assets/64270940/53a54036-7d17-4075-b643-44cf01fbdb90)
+**개인택시 운행기록\_LPG 전용**
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## 소개
 
-## Step 1: Start the Metro Server
+개인택시 운행관리를 위한 기록입니다. </br>
+사용하기 간편하게 불필요한 요소를 줄이고, 운행기록에 필요한 정보만 적을 수 있게 제작했습니다.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+### 주요 기능
 
-To start Metro, run the following command from the _root_ of your React Native project:
+**🚕 운행 기록하기**
 
-```bash
-# using npm
-npm start
+- 카드, 현금, LPG 주입량, LPG단가, 주행거리, 영업거리, 통행료를 기록할 수 있습니다.
+- 작성한 기록을 토대로 영업금액, LPG 충전 금액, 연비, LPG 사용량이 자동으로 계산됩니다.
 
-# OR using Yarn
-yarn start
-```
+</br>
 
-## Step 2: Start your Application
+**🚕 운행기록 달력에서 확인하기**
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+- 작성한 운행기록을 달력에서 확인하실 수 있습니다.
+- 작성한 날에는 표시가 되어 있습니다.
 
-### For Android
+</br>
 
-```bash
-# using npm
-npm run android
+**🚕 월별로 운행관리 기록 확인하기**
 
-# OR using Yarn
-yarn android
-```
+- 작성한 운행기록을 토대로 월별마다 총 합산을 확인할 수 있습니다.
 
-### For iOS
+</br>
 
-```bash
-# using npm
-npm run ios
+**🚕 월간, 연간 영업금액을 그래프로 확인하기**
 
-# OR using Yarn
-yarn ios
-```
+- 월간 영업금액을 막대 그래프로 확인하실 수 있습니다.
+- 연간 영업금액을 막대 그래프로 확인하실 수 있습니다.
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## 시작하기
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+> ❗️ Android 전용 앱입니다.
 
-## Step 3: Modifying your App
+</br>
+프로젝트를 실행하려면 다음 단계를 따르세요. </br>
 
-Now that you have successfully run the app, let's modify it.
+1. 저장소를 클론합니다.
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+   ```bash
+   https://github.com/yyoumi4854/taxi.git
+   ```
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+2. 필요한 의존성 패키지를 설치합니다.
 
-## Congratulations! :tada:
+   ```bash
+   npm i
+   ```
 
-You've successfully run and modified your React Native App. :partying_face:
+3. 애플리케이션을 실행합니다.
+   ```bash
+   npm run android
+   ```
 
-### Now what?
+## 기능
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+프로젝트 주요 기능 및 사용방법 </br>
+홈, 캘린더, 차트 3개의 하단메뉴 기록하기 화면 총 4개의 페이지가 있습니다.
 
-# Troubleshooting
+### 📝 RECORD
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+운행정보를 기록할 수 있습니다.
 
-# Learn More
+![Group 103](https://github.com/yyoumi4854/taxi/assets/64270940/0f8287ae-a14f-4a9d-83de-8c9881fff027)
 
-To learn more about React Native, take a look at the following resources:
+- 카드, 현금, LPG 주입량, LPG단가, 주행거리, 영업거리, 통행료를 기록할 수 있습니다.
+- 작성한 기록을 토대로 영업금액, LPG 충전 금액, 연비, LPG 사용량이 자동으로 계산됩니다.
+- 캘린더 버튼을 클릭하면 다른날짜를 선택할 수 있습니다.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### 🏠 HOME
+
+연간 영업금액 및 월별로 운행관리 기록 확인할 수 있습니다.
+
+![image 20](https://github.com/yyoumi4854/taxi/assets/64270940/4579982f-d305-4aef-b60c-bf97dd7ca86d)
+
+- 작성한 운행기록을 토대로 월별마다 총 합산을 확인할 수 있습니다.
+- +버튼을 클릭하시면 운행정보를 기록할 수 있습니다.
+
+### 🗓️ CALENDAR
+
+운행기록을 달력에서 확인할 수 있습니다.
+
+![Group 105](https://github.com/yyoumi4854/taxi/assets/64270940/8b585fc6-321c-47d3-9f23-611ab29fb3c1)
+
+- 작성한 운행기록을 달력에서 확인하실 수 있습니다.
+- 작성한 날에는 표시가 되어 있습니다.
+- 선택한 날짜에 운행정보가 없으면 운행정보를 추가하실 수 있습니다.
+- 선택한 날짜에 운행정보가 있으면 운행정보를 수정하시거나, 삭제하실 수 있습니다.
+
+### 📊 CHART
+
+월간, 연간 영업금액 총액을 차트로 확인할 수 있습니다.
+
+![Group 104](https://github.com/yyoumi4854/taxi/assets/64270940/c759e397-c26f-4358-bfe7-ea18fc82564e)
+
+- 월간 영업금액을 막대 그래프로 확인하실 수 있습니다.
+- 연간 영업금액을 막대 그래프로 확인하실 수 있습니다.
+
+## 기술 스택
+
+<div align=center>
+<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+<img src="https://img.shields.io/badge/reactnative-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+<img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white">
+<img src="https://img.shields.io/badge/realm-39477F?style=for-the-badge&logo=realm&logoColor=white">
+<img src="https://img.shields.io/badge/recoil-3578E5?style=for-the-badge&logo=recoil&logoColor=white">
+<img src="https://img.shields.io/badge/dayjs-FF5F4C?style=for-the-badge&logo=&logoColor=white">
+</div>
+
+### react-native library
+
+- react-navigation/native
+- react-navigation/bottom-tabs
+- react-navigation/native-stack
+- react-native-svg
+- react-native-calendars
+- react-native-gifted-charts

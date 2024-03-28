@@ -15,13 +15,15 @@ const BarChartView = ({recordData}: PropsType) => {
 
   const labelTextStyle = {
     fontSize: 12,
-    fontWeight: 500,
     color: `${Theme.colors.darkGrey}`,
+    fontFamily: `${Theme.fonts.medium}`,
+    height: 30,
   };
 
   const yAxisTextStyle = {
     fontSize: 12,
     color: `${Theme.colors.darkGrey}`,
+    fontFamily: `${Theme.fonts.regular}`,
   };
 
   return (
