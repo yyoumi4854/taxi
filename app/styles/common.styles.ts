@@ -27,7 +27,8 @@ export const RecordBox = {
         : Theme.colors.lightGrey};
   `,
   title: styled(Text)<OptionType>`
-    ${Theme.fontCommon.base};
+    ${Theme.fontCommon.small};
+    font-family: ${Theme.fonts.medium};
     color: ${props =>
       props.option === 'orange' ? Theme.colors.mainDeep : Theme.colors.black};
     text-align: center;

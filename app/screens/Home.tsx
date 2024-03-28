@@ -5,10 +5,11 @@ import {ScrollView} from 'react-native';
 // library
 import dayjs from 'dayjs';
 
-// assets, utils, realm
+// recoil, realm, utils
 import {useRecoilState} from 'recoil';
 import {recordState} from '../recoil/atoms.ts';
 import {readAllRecord} from '../realm/recordRealmFunctions.ts';
+import {selectMonthTotalData} from '../utils/recordCustomData.ts';
 
 // component
 import YearBusinessAmount from '../components/home/YearBusinessAmount.tsx';
@@ -39,58 +40,8 @@ const Home = () => {
     setRecordData(data.map(record => ({...record})));
   }, [setRecordData]);
 
-  // 선택한 달 데이터 필터
-  const selectMonthData = recordData.filter(data => {
-    return dayjs(data.date).format('YYYY-MM') === selectMonth;
-  });
-
-  const monthTotalData = selectMonthData.reduce(
-    (acc, curr) => {
-      acc.card += curr.card; // 카드
-      acc.cash += curr.cash; // 현금
-      acc.lpgInjectionVolume += curr.lpgInjectionVolume; // LPG 주입량
-      acc.lpgUnitPrice += curr.lpgUnitPrice; // LPG 단가
-      acc.mileage += curr.mileage; // 주행거리
-      acc.businessDistance += curr.businessDistance; // 영업거리
-      acc.toll += curr.toll; // 통행료
-      acc.operatingAmount += curr.operatingAmount; // 영업 금액
-      return acc;
-    },
-    {
-      date: selectMonth, // 날짜
-      card: 0, // 카드
-      cash: 0, // 현금
-      lpgInjectionVolume: 0, // LPG 주입량
-      lpgUnitPrice: 0, // LPG 단가
-      mileage: 0, // 주행거리
-      businessDistance: 0, // 영업거리
-      toll: 0, // 통행료
-      operatingAmount: 0, // 영업금액
-      lpgChargeAmount: 0, // LPG 충전 금액
-      fuelEfficiency: 0, // 연비
-      lpgUsage: 0, // LPG 사용량
-    },
-  );
-
-  // LPG 평균 단가
-  monthTotalData.lpgUnitPrice = selectMonthData.length
-    ? Math.round(monthTotalData.lpgUnitPrice / selectMonthData.length)
-    : 0;
-  // LPG 충전 금액
-  monthTotalData.lpgChargeAmount =
-    monthTotalData.lpgInjectionVolume * monthTotalData.lpgUnitPrice;
-  // 연비
-  monthTotalData.fuelEfficiency = monthTotalData.lpgInjectionVolume
-    ? Math.round(monthTotalData.mileage / monthTotalData.lpgInjectionVolume)
-    : 0;
-  // LPG 사용량
-  monthTotalData.lpgUsage =
-    monthTotalData.mileage / monthTotalData.lpgInjectionVolume
-      ? Math.round(
-          monthTotalData.mileage /
-            (monthTotalData.mileage / monthTotalData.lpgInjectionVolume),
-        )
-      : 0;
+  // 선택한 달의 데이터 가져오기
+  const monthData = selectMonthTotalData(recordData, selectMonth);
 
   return (
     <Style.container>
@@ -108,10 +59,10 @@ const Home = () => {
           />
 
           {/* 이번달 영업 금액 */}
-          <MonthBusinessAmount monthTotalData={monthTotalData} />
+          <MonthBusinessAmount monthTotalData={monthData} />
 
           {/* 이번달 운행 정보 */}
-          <MonthRecordInfo monthTotalData={monthTotalData} />
+          <MonthRecordInfo monthTotalData={monthData} />
         </Style.bottomContainer>
       </ScrollView>
 

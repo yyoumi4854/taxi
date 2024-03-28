@@ -23,7 +23,7 @@ const fonts = {
   largeSize: '20px',
 
   // weight
-  redular: 'NotoSansKRRegular',
+  regular: 'NotoSansKRRegular',
   medium: 'NotoSansKRMedium',
   bold: 'NotoSansKRBold',
 
@@ -38,6 +38,7 @@ const fontCommon = {
   base: `
     font-size: ${fonts.baseSize};
     line-height: ${fonts.baseHight};
+    font-family: ${fonts.regular};
   `,
   small: `
     font-size: ${fonts.smallSize};
