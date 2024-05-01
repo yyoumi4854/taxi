@@ -1,4 +1,4 @@
-package com.taxi
+package com.mjyou.taxiservicerecord
 
 import android.app.Application
 import com.facebook.react.PackageList

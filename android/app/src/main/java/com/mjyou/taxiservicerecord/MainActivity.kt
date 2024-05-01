@@ -1,4 +1,4 @@
-package com.taxi
+package com.mjyou.taxiservicerecord
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
