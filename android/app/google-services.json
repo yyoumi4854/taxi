@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "455962999171",
+    "project_id": "taxiservicerecord",
+    "storage_bucket": "taxiservicerecord.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455962999171:android:6569efdfd8e638e092deb6",
+        "android_client_info": {
+          "package_name": "com.mjyou.taxiservicerecord"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBVJTjtfGuyrrhtpYlE_pVlIoANuQVWMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
